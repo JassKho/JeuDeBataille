@@ -6,7 +6,7 @@ function App() {
   const [deck, setDeck] = useState(null);
   const [playerCard, setPlayerCard] = useState(null);
   const [computerCard, setComputerCard] = useState(null);
-  const [nextPlayerCard, setNextPlayerCard] = useState(null);
+  const [nextPlayerCards, setNextPlayerCards] = useState([]);
   const [playerDeck, setPlayerDeck] = useState([]);
   const [computerDeck, setComputerDeck] = useState([]);
   const [burnedCards, setBurnedCards] = useState([]);
@@ -31,8 +31,8 @@ function App() {
         const cards = response.data.cards;
         setPlayerDeck(cards.slice(0, 26));
         setComputerDeck(cards.slice(26, 52));
-        setRemainingCards(response.data.remaining);
-        setNextPlayerCard(cards[26]);
+        setRemainingCards(52); // Fixed maximum number of cards
+        setNextPlayerCards(cards.slice(26, 31));
       })
       .catch(error => console.log(error));
   };
@@ -46,19 +46,19 @@ function App() {
     return values[value];
   };
 
-  const playRound = () => {
+  const selectPlayerCard = (card) => {
     if (playerDeck.length === 0 || computerDeck.length === 0) {
       setWinner(playerDeck.length > computerDeck.length ? "Le joueur gagne la partie !" : "L'ordinateur gagne la partie !");
       return;
     }
 
-    let localBurnedCards = [...burnedCards];
-    let localBurnedCardNames = [...burnedCardNames];
-    let playerCurrentCard = playerDeck.shift();
-    let computerCurrentCard = computerDeck.shift();
+    const localBurnedCards = [...burnedCards];
+    const localBurnedCardNames = [...burnedCardNames];
+    const playerCurrentCard = card;
+    const computerCurrentCard = computerDeck.shift();
 
-    let playerCardValue = calculateCardValue(playerCurrentCard.value);
-    let computerCardValue = calculateCardValue(computerCurrentCard.value);
+    const playerCardValue = calculateCardValue(playerCurrentCard.value);
+    const computerCardValue = calculateCardValue(computerCurrentCard.value);
 
     localBurnedCards.push(playerCurrentCard, computerCurrentCard);
     localBurnedCardNames.push(playerCurrentCard.value, computerCurrentCard.value);
@@ -67,14 +67,12 @@ function App() {
     setBurnedCards(localBurnedCards);
     setBurnCount(prevCount => prevCount + 2);
 
-    // Reset burned cards after 5 rounds
     if (burnCount === 5) {
       setBurnedCards([]);
       setBurnedCardNames([]);
       setBurnCount(0);
     }
 
-    // Determine winner of the round
     if (playerCardValue === computerCardValue) {
       if (playerCurrentCard.value === "ACE" && computerCurrentCard.value === "ACE") {
         handleAceBattle(localBurnedCards, localBurnedCardNames);
@@ -95,8 +93,7 @@ function App() {
     setPlayerCard(playerCurrentCard);
     setComputerCard(computerCurrentCard);
 
-    // Update next card for player
-    setNextPlayerCard(playerDeck[0] ? playerDeck[0] : null);
+    setNextPlayerCards(playerDeck.slice(0, 5));
   };
 
   const handleAceBattle = (localBurnedCards, localBurnedCardNames) => {
@@ -133,7 +130,13 @@ function App() {
     setPlayerCard(playerExtraCard);
     setComputerCard(computerExtraCard);
 
-    setNextPlayerCard(playerDeck[0] ? playerDeck[0] : null);
+    setNextPlayerCards(playerDeck.slice(0, 5));
+  };
+
+  const playRound = () => {
+    if (nextPlayerCards.length > 0) {
+      selectPlayerCard(nextPlayerCards[0]);
+    }
   };
 
   return (
@@ -155,7 +158,14 @@ function App() {
             </div>
           </div>
           <div className="next-card">
-            <h3>Prochaine carte du Joueur : {nextPlayerCard && nextPlayerCard.value}</h3>
+            <h3>Prochaine carte du Joueur :</h3>
+            <div className="card-options">
+              {nextPlayerCards.map((card, index) => (
+                <button key={index} onClick={() => selectPlayerCard(card)} className="card-option">
+                  {card.value} {card.suit}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="battle-message">
             <p>{battleMessage}</p>
@@ -166,7 +176,7 @@ function App() {
           <div className="burned-cards">
             <h3>Cartes brûlées :</h3>
             <ul>
-              {burnedCardNames.map((cardName, index) => (
+              {burnedCardNames.slice(-5).map((cardName, index) => (
                 <li key={index}>{cardName}</li>
               ))}
             </ul>

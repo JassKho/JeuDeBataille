@@ -101,6 +101,28 @@ h2 {
   font-weight: 600;
 }
 
+.card-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.card-option {
+  padding: 10px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.card-option:hover {
+  background-color: #357ab7;
+  transform: scale(1.05);
+}
+
 .battle-message {
   margin-top: 15px;
   font-size: 1.2rem;
