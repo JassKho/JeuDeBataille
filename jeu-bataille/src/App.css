@@ -1,38 +1,207 @@
-.App {
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.app {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  width: 80%;
+  max-width: 800px;
+  padding: 40px;
   text-align: center;
+  transition: all 0.3s ease;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h1 {
+  font-size: 2.5rem;
+  color: #4a90e2;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  font-weight: 700;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Button Styles */
+button {
+  background-color: #4a90e2;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 20px;
+}
+
+button:hover {
+  background-color: #357ab7;
+  transform: scale(1.05);
+}
+
+/* Card Styles */
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.card {
+  width: 150px;
+  height: 220px;
+  background-color: #fff;
+  border: 3px solid #ddd;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.card img {
+  max-width: 80%;
+  max-height: 80%;
+  transition: transform 0.3s ease;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: #4a90e2;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Next Card Display */
+.next-card {
+  margin-top: 30px;
+  font-size: 1.4rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Battle Message */
+.battle-message {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  color: #d9534f;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Remaining Cards */
+.remaining-cards {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Burned Cards */
+.burned-cards {
+  margin-top: 40px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.burned-cards h3 {
+  font-size: 1.3rem;
+  color: #d9534f;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.burned-cards ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.burned-cards li {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 8px 0;
+}
+
+.winner {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #5cb85c;
+  margin-top: 30px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app {
+    width: 90%;
+    padding: 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 120px;
+    height: 180px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 10px 25px;
+  }
+
+  .next-card {
+    font-size: 1.2rem;
+  }
+
+  .battle-message, .remaining-cards {
+    font-size: 1rem;
+  }
+
+  .burned-cards h3 {
+    font-size: 1.1rem;
+  }
+
+  .burned-cards li {
+    font-size: 1rem;
+  }
+
+  .winner {
+    font-size: 1.5rem;
   }
 }
